@@ -1,0 +1,36 @@
+{
+  "name": "aframe-dust-component",
+  "description": "An A-Frame WebVR pointcloud that englobes the user for visual feedback of motion, or atmosphere",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "test": "open jasmine/SpecRunner.html   # on OSes other than OS X, manually load SpecRunner.html in a browser"
+  },
+  "devDependencies": {
+  },
+  "keywords": [
+    "dust",
+    "pointcloud",
+    "fly",
+    "atmosphere",
+    "starfield",
+    "aframe",
+    "webvr",
+    "vr"
+  ],
+  "dependencies": {},
+  "homepage": "https://github.com/DougReeder/aframe-dust-component#readme",
+  "bugs": {
+    "url": "https://github.com/DougReeder/aframe-dust-component/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DougReeder/aframe-dust-component.git"
+  },
+  "author": {
+    "name": "Doug Reeder",
+    "email": "reeder.29@gmail.com"
+  },
+  "contributors": [],
+  "browser": "aframe-dust-component.js"
+}

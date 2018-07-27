@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>dust test - A-Frame</title>
+    <meta name="description" content="">
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <!--<script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>-->
+    <script src="aframe-dust-component.js"></script>
+    <script>
+        AFRAME.registerComponent('dust-test', {
+            init: function () {
+                let sceneEl = this.el;
+                console.log("dust-test init");
+
+                let cameraEl = sceneEl.querySelector('[camera]');
+                let dustEl = sceneEl.querySelector('a-dust');
+
+                // delays setup until there's some slack time
+                requestIdleCallback( () => {
+                    dustEl.components.dust.setCamera(cameraEl);
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+<a-scene dust-test>
+    <a-cone position="0 10 0" color="green" height="20" radius-bottom="20" radius-top="10"></a-cone>
+    <a-dust num-points="5000" dispersion="100" color="#cc3366" point-size="3" log=true></a-dust>
+
+    <a-entity position="0 1 500" camera look-controls wasd-controls></a-entity>
+    <a-entity button-controls></a-entity>
+</a-scene>
+</body>
+</html>
