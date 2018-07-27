@@ -1,10 +1,10 @@
-// aframe-dust-component.js - a set of points for visual reference when flying or moving in unearthly enviroments
+// aframe-dust-component.js - A cloud of particles surrounding the user for visual motion indication, or atmosphere.
 // Copyright © 2018 by P. Douglas Reeder under the MIT License
 
 AFRAME.registerComponent('dust', {
     schema: {
         color: {type: 'color', default: 'rgb(128, 128, 128)'},
-        numPoints: {type: 'number', default: 64},
+        numPoints: {type: 'number', default: 128},
         dispersion: {type: 'number', default: 100},
         pointSize: {type: 'number', default: 2},
         log: {type: 'boolean', default: false}
@@ -19,13 +19,15 @@ AFRAME.registerComponent('dust', {
             console.log("dust init", this.data, this.el);
         }
 
-        setTimeout(() => {
-            if (! this.cameraObject3D) {
-                let cameraEl = AFRAME.scenes[0].querySelector('[camera]');
-                console.warn("dust: setCamera not called after 10s; using 1st camera", cameraEl);
-                this.setCamera(cameraEl);
-            }
-        }, 10000)
+        setTimeout(() => {   // allows developer a chance to set the camera
+            requestIdleCallback( () => {
+                if (!this.cameraObject3D) {
+                    let cameraEl = AFRAME.scenes[0].querySelector('[camera]');
+                    console.warn("dust: setCamera not called; using first camera", cameraEl);
+                    this.setCamera(cameraEl);
+                }
+            });
+        }, 1000)
     },
 
     /** Called when properties are changed, incl. right after init */

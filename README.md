@@ -2,8 +2,8 @@ aframe-dust-component
 ===
 
 An [A-Frame](https://aframe.io) [WebVR](https://webvr.info/) component that surrounds the user
-with a cloud of points. 
-As the user moves, points from behind the user respawn in front
+with a cloud of particles.
+As the user moves, particles from behind the user respawn in front
 (so you don't have to fill the whole space with points).
 
 This provides visual feedback on the user's motion, which is useful when flying or
@@ -18,15 +18,19 @@ The performance cost is modest, unless you use tens of thousands of points.
 
 [live example scene](https://dougreeder.github.io/aframe-dust-component/example.html)
 
+Used in [Elfland Glider](https://elfland-glider.surge.sh/)
 
 Basic Usage
 ---
 ```html
+<script src="https://unpkg.com/aframe-dust-component@^1.0.1/aframe-dust-component.js"></script>
+
 <a-dust></a-dust>
 ```
 Leave the position at 0 0 0, and place the dust as a direct child of the scene.
 
-You should explicitly set a camera in JavaScript:
+You should explicitly set a camera (or a "vehicle" that contains the camera)
+in some `init` function:
 ```javascript
 let cameraEl = sceneEl.querySelector('[camera]');
 let dustEl = sceneEl.querySelector('a-dust');
@@ -42,6 +46,8 @@ requestIdleCallback( () => {
 Advanced Usage
 ---
 ```html
+<script src="https://unpkg.com/aframe-dust-component@^1.0.1/aframe-dust-component.js"></script>
+
 <a-dust num-points="24576" dispersion="200" color="black" point-size="4"></a-dust>
 ```
 
@@ -60,13 +66,13 @@ Properties
 ---
 
 ### color
-CSS color of specks; default gray
+CSS color of particles; default gray
 
 ### num-points
-The number of points; default 64
+The number of particles; default 128
 
 ### dispersion
-How close the specks will stay to the user, in meters; default 100
+How close the particles will stay to the user, in meters; default 100
 
 ### point-size
-The size of points, in pixels; default 2
+The size of particles, in pixels; default 2
