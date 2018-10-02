@@ -6,7 +6,7 @@ AFRAME.registerComponent('dust', {
         color: {type: 'color', default: 'rgb(128, 128, 128)'},
         numPoints: {type: 'number', default: 128},
         dispersion: {type: 'number', default: 100},
-        pointSize: {type: 'number', default: Math.max(Math.min(window.devicePixelRatio, screen.availWidth/360), 1)},
+        pointSize: {type: 'number', default: 1},
         log: {type: 'boolean', default: false}
     },
 
