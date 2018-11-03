@@ -90,7 +90,16 @@ AFRAME.registerComponent('dust', {
             this.geometry.vertices.push(speck);
         }
 
-        this.material = new THREE.PointsMaterial( { color: data.color, size: data.pointSize, sizeAttenuation: false } );
+        this.particleTexture = new THREE.TextureLoader().load(
+            'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAR5JREFUOMvF011rFEEQheGnshuNxi+iURARJHjr//8rXgQkIWxAza4RNyEyW96chXFcL8WBooaePm9Vne7hfz81XejuPRziGfazvMGqqlbT/fMd4rd4jCc4yqfvWHb3YVVd7ASMxC9wgjd4hAFrnGHW3caQcQfPU/E9PuB1AIXrUTfd3euqWk4B27nfpZOTiBpLzJK/4GnefwMc4BUeRnicjSK+ii/HWHT3rKqGMWAvIe7Pkzt5f2r6tIOfcXvAt8w9zxFeY4WbxGYX4BZfcRlD7wU0RLxILHFTVcMU8Dk+fIzzKzzICGuc4zQFFn90UFW33X0+Gucipm5i4FUgn7bV/3aVD/AS93Mj4QfucDYW7wSMQLMc37bDu3/yN/4CZpdiqUwRBfYAAAAASUVORK5CYII='
+        );
+        this.material = new THREE.PointsMaterial({
+            map: this.particleTexture,
+            transparent: true,
+            size: data.pointSize/4,
+            blending: THREE.AdditiveBlending,
+            color: data.color
+        });
 
         this.points = new THREE.Points(this.geometry, this.material);
 
