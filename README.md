@@ -23,7 +23,7 @@ Used in [Elfland Glider](https://elfland-glider.surge.sh/)
 Basic Usage
 ---
 ```html
-<script src="https://unpkg.com/aframe-dust-component@^1.0.3/aframe-dust-component.js"></script>
+<script src="https://unpkg.com/aframe-dust-component@^1.0.4/aframe-dust-component.js"></script>
 
 <a-dust></a-dust>
 ```
@@ -46,7 +46,7 @@ requestIdleCallback( () => {
 Advanced Usage
 ---
 ```html
-<script src="https://unpkg.com/aframe-dust-component@^1.0.3/aframe-dust-component.js"></script>
+<script src="https://unpkg.com/aframe-dust-component@^1.0.4/aframe-dust-component.js"></script>
 
 <a-dust num-points="24576" dispersion="200" color="black" point-size="4"></a-dust>
 ```

@@ -96,7 +96,7 @@ AFRAME.registerComponent('dust', {
         this.material = new THREE.PointsMaterial({
             map: this.particleTexture,
             transparent: true,
-            size: data.pointSize/4,
+            size: data.pointSize/2,
             blending: THREE.AdditiveBlending,
             color: data.color
         });
