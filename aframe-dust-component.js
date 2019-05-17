@@ -20,13 +20,18 @@ AFRAME.registerComponent('dust', {
         }
 
         setTimeout(() => {   // allows developer a chance to set the camera
-            requestIdleCallback( () => {
+            let ensureCameraSet = () => {
                 if (!this.cameraObject3D) {
                     let cameraEl = AFRAME.scenes[0].querySelector('[camera]');
                     console.warn("dust: setCamera not called; using first camera", cameraEl);
                     this.setCamera(cameraEl);
                 }
-            });
+            };
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(ensureCameraSet);
+            } else {
+                ensureCameraSet();
+            }
         }, 1000)
     },
 
