@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>dust test - A-Frame</title>
     <meta name="description" content="">
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
     <!--<script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@^v6.1.1/dist/aframe-extras.controls.min.js"></script>
     <script src="requestIdleCallback.js"></script>
     <script src="aframe-dust-component.js"></script>
     <script>
@@ -30,7 +31,9 @@
     <a-cone position="0 10 0" color="green" height="20" radius-bottom="20" radius-top="10"></a-cone>
     <a-dust num-points="5000" dispersion="100" color="red" log=true></a-dust>
 
-    <a-entity position="0 1 500" camera look-controls wasd-controls></a-entity>
+    <a-entity id="rig" movement-controls="fly:true; speed:0.6;" position="0 0 500">
+        <a-entity camera look-controls position="0 1.6 0"></a-entity>
+    </a-entity>
     <a-entity button-controls></a-entity>
 </a-scene>
 </body>
