@@ -1,7 +1,7 @@
 aframe-dust-component
 ===
 
-An [A-Frame](https://aframe.io) [WebVR](https://webvr.info/) component that surrounds the user
+An [A-Frame](https://aframe.io/) [WebXR](https://immersiveweb.dev/) component that surrounds the user
 with a cloud of particles.
 As the user moves, particles from behind the user respawn in front
 (so you don't have to fill the whole space with particles).
@@ -18,12 +18,12 @@ The performance cost is modest, unless you use tens of thousands of particles.
 
 [live example scene](https://dougreeder.github.io/aframe-dust-component/example.html) - use WASD + mouse to look around
 
-Used in [Elfland Glider](https://elfland-glider.surge.sh/)
+Used in [Elfland Glider](https://dougreeder.github.io/elfland-glider/)
 
 Basic Usage
 ---
 ```html
-<script src="https://unpkg.com/aframe-dust-component@^1.0.5/aframe-dust-component.js"></script>
+<script src="https://unpkg.com/aframe-dust-component@^1.1.0/aframe-dust-component.js"></script>
 
 <a-dust></a-dust>
 ```
@@ -46,7 +46,7 @@ requestIdleCallback( () => {
 Advanced Usage
 ---
 ```html
-<script src="https://unpkg.com/aframe-dust-component@^1.0.5/aframe-dust-component.js"></script>
+<script src="https://unpkg.com/aframe-dust-component@^1.1.0/aframe-dust-component.js"></script>
 
 <a-dust num-points="24576" dispersion="200" color="black" point-size="4"></a-dust>
 ```

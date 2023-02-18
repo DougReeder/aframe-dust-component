@@ -1,5 +1,7 @@
 // aframe-dust-component.js - A cloud of particles surrounding the user for visual motion indication, or atmosphere.
-// Copyright © 2018 by P. Douglas Reeder under the MIT License
+// Copyright © 2018, 2023 by P. Douglas Reeder under the MIT License
+
+const NUM_FIXED_POINTS = 8;
 
 AFRAME.registerComponent('dust', {
     schema: {
@@ -66,34 +68,33 @@ AFRAME.registerComponent('dust', {
             console.log("dust createSpecks", this.cameraObject3D);
         }
         let data = this.data;
+        data.numPoints += NUM_FIXED_POINTS;
         let el = this.el;
 
-        this.geometry = new THREE.Geometry();
+        this.positions = new Float32Array(data.numPoints * 3);
 
         // a box of static specks prevents the bounding box from collapsing
-        this.geometry.vertices.push(new THREE.Vector3( 5000,  5000,  5000));
-        this.geometry.vertices.push(new THREE.Vector3( 5000,  5000, -5000));
-        this.geometry.vertices.push(new THREE.Vector3( 5000, -5000,  5000));
-        this.geometry.vertices.push(new THREE.Vector3( 5000, -5000, -5000));
-        this.geometry.vertices.push(new THREE.Vector3(-5000,  5000,  5000));
-        this.geometry.vertices.push(new THREE.Vector3(-5000,  5000, -5000));
-        this.geometry.vertices.push(new THREE.Vector3(-5000, -5000,  5000));
-        this.geometry.vertices.push(new THREE.Vector3(-5000, -5000, -5000));
+        this.positions.set([5000, 5000, 5000,  5000, 5000, -5000,  5000, -5000, 5000,  5000, -5000, -5000,  -5000,  5000, 5000,  -5000, 5000, -5000,  -5000, -5000, 5000,  -5000, -5000, -5000], 0);
 
         let cameraWorldPosition = new THREE.Vector3();
         this.cameraObject3D.getWorldPosition(cameraWorldPosition);
-        for (let i = 0; i < data.numPoints; i ++ ) {
+        const speck = new THREE.Vector3();
+        for (let i = NUM_FIXED_POINTS; i < data.numPoints; i++) {
             // distributes specks in a slightly-lumpy ball
-            let speck = new THREE.Vector3(
-                THREE.Math.randFloatSpread(data.dispersion * 1.9),
-                THREE.Math.randFloatSpread(data.dispersion * 1.9),
-                THREE.Math.randFloatSpread(data.dispersion * 1.9)
+            speck.set(
+                THREE.MathUtils.randFloatSpread(data.dispersion * 1.9),
+                THREE.MathUtils.randFloatSpread(data.dispersion * 1.9),
+                THREE.MathUtils.randFloatSpread(data.dispersion * 1.9)
             );
             speck.clampLength(0, data.dispersion * 0.95);
             speck.add(cameraWorldPosition);
 
-            this.geometry.vertices.push(speck);
+            speck.toArray(this.positions, i*3)
         }
+        this.positionAttribute = new THREE.BufferAttribute(this.positions, 3);
+        this.positionAttribute.setUsage(THREE.DynamicDrawUsage);
+        this.geometry = new THREE.BufferGeometry();
+        this.geometry.setAttribute('position', this.positionAttribute);
 
         this.particleTexture = new THREE.TextureLoader().load(
             'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAR5JREFUOMvF011rFEEQheGnshuNxi+iURARJHjr//8rXgQkIWxAza4RNyEyW96chXFcL8WBooaePm9Vne7hfz81XejuPRziGfazvMGqqlbT/fMd4rd4jCc4yqfvWHb3YVVd7ASMxC9wgjd4hAFrnGHW3caQcQfPU/E9PuB1AIXrUTfd3euqWk4B27nfpZOTiBpLzJK/4GnefwMc4BUeRnicjSK+ii/HWHT3rKqGMWAvIe7Pkzt5f2r6tIOfcXvAt8w9zxFeY4WbxGYX4BZfcRlD7wU0RLxILHFTVcMU8Dk+fIzzKzzICGuc4zQFFn90UFW33X0+Gucipm5i4FUgn7bV/3aVD/AS93Mj4QfucDYW7wSMQLMc37bDu3/yN/4CZpdiqUwRBfYAAAAASUVORK5CYII='
@@ -130,23 +131,25 @@ AFRAME.registerComponent('dust', {
 
         let offsetSph = new THREE.Spherical();
         let offset = new THREE.Vector3();
+        let vertex = new THREE.Vector3()
         // console.log("dust move specks", normalizedVelocity);
-        for (let i=8; i<this.geometry.vertices.length; ++i) {
-            let vertex = this.geometry.vertices[i];
+        for (let i = NUM_FIXED_POINTS; i < this.data.numPoints; i ++ ) {
+            vertex.fromArray(this.positions, i*3);
             let relativePosition = vertex.clone().sub(newPosition);
             // console.log("vertex", vertex, relativePosition.dot(normalizedVelocity));
             if (relativePosition.dot(normalizedVelocity) < -this.data.dispersion) {
                 offsetSph.set(this.data.dispersion * 0.9,
-                    normalizedVelocitySph.phi + THREE.Math.randFloatSpread(THIRD),
-                    normalizedVelocitySph.theta + THREE.Math.randFloatSpread(THIRD));
+                    normalizedVelocitySph.phi + THREE.MathUtils.randFloatSpread(THIRD),
+                    normalizedVelocitySph.theta + THREE.MathUtils.randFloatSpread(THIRD));
                 offset.setFromSpherical(offsetSph);
                 vertex.copy(newPosition);
                 vertex.add(offset);
+                vertex.toArray(this.positions, i*3);
 
                 if (this.data.log) {
                     console.log("moved to", vertex, newPosition);
                 }
-                this.geometry.verticesNeedUpdate = true;
+                this.positionAttribute.needsUpdate = true;
             }
         }
         this.prevTime = time;

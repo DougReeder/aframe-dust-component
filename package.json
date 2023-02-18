@@ -1,7 +1,7 @@
 {
   "name": "aframe-dust-component",
   "description": "A cloud of particles surrounding the user for visual motion indication, or atmosphere. For A-Frame WebVR.",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "license": "MIT",
   "scripts": {
     "test": "open jasmine/SpecRunner.html   # on OSes other than OS X, manually load SpecRunner.html in a browser"
